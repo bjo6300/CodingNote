@@ -1,4 +1,4 @@
-# 동전
+# 동전 0
 
 n, k = map(int,input().split()) # 첫줄 N, K
 money=[int(input()) for _ in range(n)] # 동전의 가치 리스트에 저장
