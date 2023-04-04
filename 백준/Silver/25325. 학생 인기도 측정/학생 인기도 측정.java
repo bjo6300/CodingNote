@@ -8,7 +8,7 @@ public class Main {
 
         int n = Integer.parseInt(br.readLine()); // 학생 수
         StringTokenizer st = new StringTokenizer(br.readLine());
-        Map<String, Integer> hashMap = new HashMap<>();
+        HashMap<String, Integer> hashMap = new HashMap<>();
 
         for(int i = 0; i < n; i++) {
             hashMap.put(st.nextToken(), 0); // 학생 이름 0으로 초기화
@@ -24,17 +24,15 @@ public class Main {
         }
 
         List<String> keySet = new ArrayList<>(hashMap.keySet());
-        keySet.sort((o1, o2) ->
-                hashMap.get(o2).compareTo(hashMap.get(o1))
-        );
 
-        keySet.sort((o1, o2) -> {
-            if (hashMap.get(o1) - hashMap.get(o2) == 0)
+        keySet.sort((o1, o2) -> { // 정렬
+            if(hashMap.get(o1) - hashMap.get(o2) == 0)
                 return o1.compareTo(o2);
-            return hashMap.get(o2) - hashMap.get(o1);
+            else
+                return hashMap.get(o2) - hashMap.get(o1);
         });
 
-        for (String key : keySet) {
+        for(String key : keySet) {
             System.out.println(key + " " + hashMap.get(key));
         }
 
