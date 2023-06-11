@@ -1,8 +1,8 @@
-SET @hour := -1; -- 변수 선언
+set @a = -1;
 
-SELECT (@hour := @hour + 1) as HOUR, -- -1부터 +1씩 증가
-    (SELECT COUNT(*) 
-     FROM ANIMAL_OUTS 
-     WHERE HOUR(DATETIME) = @hour) as COUNT
-FROM ANIMAL_OUTS
-WHERE @hour < 23
+select (@a := @a + 1) as "hour",
+    (select count(*)
+    from ANIMAL_OUTS
+    where hour(datetime) = @a) as "count"
+from ANIMAL_OUTS
+where @a < 23
