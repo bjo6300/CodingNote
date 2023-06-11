@@ -1,0 +1,8 @@
+select NAME, count(NAME) as 'count'
+from ANIMAL_INS
+group by NAME 
+having count(NAME) >= 2 
+order by NAME;
+
+# where은 group by 로 묶이기 전에 조건을 처리하고 묶는다.
+# having은
