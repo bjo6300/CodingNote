@@ -1,50 +1,23 @@
 def solution(n, arr1, arr2):
-    # 이진수 변환 함수 : format(i, 'b')
-    total_map = [[0]*n for _ in range(n)] # nxn 지도
-    map1 = [[0]*n for _ in range(n)] # map1
-    map2 = [[0]*n for _ in range(n)] # map2
+    secret_map = ['0' * n for _ in range(n)]
     
-    # map1 변환
     for i in range(len(arr1)):
-        bin_1 = format(arr1[i], "b") # ex. 9 -> 1001
-        if len(bin_1) < n:
-            diff = n - len(bin_1) # if n=5인데 bin_1 = 1001이면 01001로 만들어주기 위함
-            bin_1 = diff*"0" + bin_1
-
-        for j in range(len(bin_1)):
-            map1[i][j] = bin_1[j]
-            
-    # map2 변환
-    for i in range(len(arr2)):
-        bin_2 = format(arr2[i], "b") # ex. 9 -> 1001
-        if len(bin_2) < n:
-            diff = n - len(bin_2) # if n=5인데 bin_1 = 1001이면 01001로 만들어주기 위함
-            bin_2 = diff*"0" + bin_2
-        for j in range(len(bin_2)):
-            map2[i][j] = bin_2[j]
-            
-    # 전체 지도 병합
-    # 규칙 : 하나라도 0(공백)이면 전체도 0, 둘다 1(벽)이어야만 전체도 1
-    for i in range(n):
-        map1_i = map1[i] # list의 i번째 list
-        map2_i = map2[i] # list의 i번째 list
+        # 2진수로 변환
+        arr1_two = bin(arr1[i])[2:]
+        arr2_two = bin(arr2[i])[2:]
         
-        for j in range(n):
-            a = map1_i[j] # map1[i][j]
-            b = map2_i[j] # map2[i][j]
-            
-            # 규칙 1
-            if a == "1" or b == "1":
-                total_map[i][j] = "#"
-            elif a == "0" and b == "0":
-                total_map[i][j] = " "
-    
-    answer = []
-    for i in range(n):
-        map_i = total_map[i]
-        sum_i = map_i[0]
-        for j in range(1, len(map_i)):
-            sum_i = sum_i + map_i[j]
-        answer.append(sum_i)
-    
-    return answer
+        # 2진수 길이 맞추기
+        if n > len(arr1_two):
+            arr1_two = (n - len(arr1_two)) * "0" + arr1_two
+
+        if n > len(arr2_two):
+            arr2_two = (n - len(arr2_two)) * "0" + arr2_two
+       
+        # 비밀지도 해독 # or 공백
+        for j in range(len(secret_map[i])):
+            if arr1_two[j] == "0" and arr2_two[j] == "0":
+                secret_map[i] = secret_map[i][:j] + " " + secret_map[i][j + 1:]
+            else:
+                secret_map[i] = secret_map[i][:j] + "#" + secret_map[i][j + 1:]
+                
+    return secret_map
