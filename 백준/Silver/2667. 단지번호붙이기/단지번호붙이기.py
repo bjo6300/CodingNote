@@ -1,19 +1,21 @@
-# 단지 번호 
-
-from collections import deque
 import sys
 input = sys.stdin.readline
+from collections import deque
 
-dx = [-1, 1, 0, 0]
-dy = [0, 0, -1, 1]
+n = int(input().rstrip())
+graph = [list(map(int, input().rstrip())) for _ in range(n)]
 
-N = int(input().rstrip())
-danji = []
+danzi = 0
+answer = []
 
-def bfs(graph, a, b): # a, b는 좌표
+def bfs(a, b):
+    dx = [-1,1,0,0]
+    dy = [0,0,-1,1]
     house = 1
-    q = deque([(a, b)])
     graph[a][b] = 0
+
+    q = deque()
+    q.append((a,b))
 
     while q:
         x, y = q.popleft()
@@ -22,24 +24,23 @@ def bfs(graph, a, b): # a, b는 좌표
             nx = dx[i] + x
             ny = dy[i] + y
 
-            if 0 <= nx < N and 0 <= ny < N:
+            if 0 <= nx < n and 0 <= ny < n:
                 if graph[nx][ny] == 1:
                     q.append((nx, ny))
                     graph[nx][ny] = 0
                     house += 1
-                    
-    return house
 
-graph = [list(map(int, input().rstrip())) for _ in range(N)] # 지도   
+    answer.append(house)
 
-for i in range(N):
-    for j in range(N):
+for i in range(n):
+    for j in range(n):
         if graph[i][j] == 1:
-            danji.append(bfs(graph, i, j))
+            bfs(i, j)
+            danzi += 1
 
-danji.sort() # 오름차순 정렬
+print(danzi)
 
-print(len(danji)) # 총 단지 수
+answer.sort()
 
-for i in danji:
-    print(i) # 단지 내 집의 수
+for i in answer:
+    print(i)
