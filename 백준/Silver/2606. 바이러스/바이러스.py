@@ -1,39 +1,29 @@
 # 바이러스
 
-from collections import deque
+import sys
+input = sys.stdin.readline 
 
-n = int(input()) # 컴퓨터 수
-m = int(input()) # 연결된 쌍의 수
+com_vertex = int(input()) # 컴퓨터의 수
+com_edge = int(input()) # 연결된 쌍 개수
+com_virus = 0
 
-visited = [False] * (n + 1)
-graph = [[] for _ in range(n + 1)]
-cnt = 0
+graph = [[] for _ in range(com_vertex + 1)] # connect 저장 리스트 // 인덱스 0 은 사용 안함
+visited = [False] * (com_vertex + 1) # 방문 여부 // 인덱스 0 은 사용 안함
 
-for _ in range(m):
+for _ in range(com_edge):
     a, b = map(int, input().split())
     graph[a].append(b)
     graph[b].append(a)
 
-for i in range(len(graph)):
-    graph[i].sort()
+def dfs(start):
+    global com_virus
+    visited[start] = True
 
-def bfs(v):
-    global cnt
-    q = deque([v])
-    visited[v] = True
+    for i in graph[start]:
+        if not visited[i]:
+            dfs(i)
+            visited[i] = True
+            com_virus += 1
 
-    while q:
-        now = q.popleft()
-
-        for i in graph[now]:
-            if not visited[i]:
-                q.append(i)
-                visited[i] = True
-                cnt += 1
-
-bfs(1)
-print(cnt)
-
-
-
-
+dfs(1)
+print(com_virus)
